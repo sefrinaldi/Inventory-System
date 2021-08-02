@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect, Link } from "react-router-dom";
 import "./productList.css";
 
 class ProductList extends Component {
@@ -10,7 +11,8 @@ class ProductList extends Component {
   editUser = (product) => this.props.updateUser(product);
 
   addProduct = (move) => {
-    this.props.goToPage("AddForm");
+    // this.props.goToPage("AddForm");
+    <Link to="AddForm" />
   };
 
   listPenjualan = (data) => {
@@ -31,7 +33,8 @@ class ProductList extends Component {
   pembelianBarang = (e) => {
     this.props.detailHandler(e.id - 1);
     this.props.tambahStok(e.id);
-    this.props.goToPage("pembelian");
+    // this.props.goToPage("pembelian");
+    <Link to="pembelian"/>
     console.log("crooooootttt", e.id);
     console.log("coooo", e);
   };
@@ -51,7 +54,7 @@ class ProductList extends Component {
           <td>{product.hargaJual}</td>
           <td>{product.qty}</td>
           <td>
-            {/* <button data-id={product.id}>Detail</button> */}
+            {/* <button data-id={product.id}>Detail</button> */}          
             <button
               className="editButton"
               onClick={() => this.editUser(product)}
@@ -77,14 +80,19 @@ class ProductList extends Component {
   };
 
   render() {
+    const { loginStatus } = this.props
+    if (!loginStatus)    
+      return <Redirect to="/home" />
+
     return (
       <>
-        <button
-          className="buttonAdd"
-          onClick={() => this.props.goToPage("AddForm")}
-        >
-          Add New Product
-        </button>
+        <Link to="/AddForm">
+          <button
+            className="buttonAdd"    
+          >
+            Add New Product
+          </button>
+        </Link>
         <table width="70%">
           <thead>
             <tr>

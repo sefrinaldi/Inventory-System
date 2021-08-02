@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
 // import Swal from "sweetalert2";
 
 import {
@@ -115,17 +116,29 @@ class Body extends Component {
   };
 
   renderPage = () => {
-    const page = this.props.page;
+    // const page = this.props.page;
     const { userEdit } = this.state;
     const { loginStatus } = this.props;
     console.log("Status", loginStatus);
 
-    if (page === "about") return <About />;
+    return <Switch>
+      <Route path="/home">
+        <Home
+          datas={this.state.productList}
+          dataBeli={this.addDataPembelian}
+          sendData={this.state.dataPembelian}
+        />
+      </Route>
 
-    if (page === "login") return <Login changeStat={this.props.changeStatus} />;
+      <Route path="/about">
+        <About />
+      </Route>
 
-    if (page === "pembelian")
-      return (
+      <Route path="/login">
+        <Login changeStat={this.props.changeStatus} />;
+      </Route>
+
+      <Route path="/pembelian">
         <Pembelian
           oldQty={this.state.oldQty}
           detailProduct={this.state.detailProduct}
@@ -136,13 +149,13 @@ class Body extends Component {
           tambahStok={this.tambahStok}
           addStok={this.addStok}
         />
-      );
+      </Route>
 
-    if (page === "labaRugi")
-      return <LabaRugi sentData={this.state.dataPembelian} />;
+      <Route path="/labaRugi">
+        <LabaRugi sentData={this.state.dataPembelian} />;
+      </Route>
 
-    if (page === "AddForm")
-      return (
+      <Route path="/AddForm">
         <AddForm
           addProduct={this.addProduct}
           selectedUser={userEdit}
@@ -150,50 +163,50 @@ class Body extends Component {
           saveUser={this.updateUsers}
           goToPage={this.props.goToPage}
         />
-      );
+      </Route>
 
-    if (page === "form")
-      return (
+      <Route path="form">
         <Form
           selectedUser={userEdit}
           resetUserEdit={this.clearEdit}
           saveUser={this.updateUsers}
           goToPage={this.props.goToPage}
         />
-      );
-    if (page === "productList" && loginStatus === true)
-      return (
+      </Route>
+
+      <Route path="/productList">
         <ProductList
           datas={this.state.productList}
           updateUser={this.setUserEdit}
           setDiskon={this.editDiskon}
           listProduct={this.getlistPenjualan}
-          goToPage={this.props.goToPage}
+          // goToPage={this.props.goToPage}
           detailHandler={this.detailHandler}
           addProduct={this.addProduct}
           tambahStok={this.tambahStok}
+          loginStatus={loginStatus}
         />
-      );
+      </Route>
 
-    if (page === "penjualan")
-      return <Penjualan listProduct={this.state.penjualanList} />;
+      <Route path="/penjualan">
+        <Penjualan listProduct={this.state.penjualanList} />;
+      </Route>
 
-    if (page === "diskon")
-      return (
+      <Route path="/diskon">
         <Diskon
-          diskon={this.state.diskon}
-          updateDiskon={this.updateDiskon}
-          redirect={this.props.goToPage}
-        />
-      );
+            diskon={this.state.diskon}
+            updateDiskon={this.updateDiskon}
+            redirect={this.props.goToPage}
+          />
+      </Route>
+    </Switch>
 
-    return (
-      <Home
-        datas={this.state.productList}
-        dataBeli={this.addDataPembelian}
-        sendData={this.state.dataPembelian}
-      />
-    );
+
+    // if (page === "productList" && loginStatus === true)
+    //   return (
+        
+    //   );        
+
   };
   addDataPembelian = (data) => {
     this.setState({
@@ -253,26 +266,26 @@ class Body extends Component {
     const filterData = oldData.filter((product) => product.id === data.id);
 
     const idx = oldData.findIndex((product) => product.id === data.id);
-    
-    let newDiskon = data.diskon <=100 ? (data.diskon > 0 ? data.diskon : 0) : 100        
 
-		oldData.splice(idx, 1, {
-			id: data.id,
-			nameProduct: data.nameProduct,
-			hargaBeli: filterData[0].hargaBeli,
-			hargaJual: filterData[0].hargaJual,
-			qty: filterData[0].qty,
-			thumbnailUrl: data.thumbnailUrl,
-			diskon: newDiskon ? newDiskon : 0,
-		});
+    let newDiskon = data.diskon <= 100 ? (data.diskon > 0 ? data.diskon : 0) : 100
 
-		this.setState(
-			{
-				productList: oldData,
-				diskon: {},
-			},
-			console.log("master : ", this.state.productList)
-		);  
+    oldData.splice(idx, 1, {
+      id: data.id,
+      nameProduct: data.nameProduct,
+      hargaBeli: filterData[0].hargaBeli,
+      hargaJual: filterData[0].hargaJual,
+      qty: filterData[0].qty,
+      thumbnailUrl: data.thumbnailUrl,
+      diskon: newDiskon ? newDiskon : 0,
+    });
+
+    this.setState(
+      {
+        productList: oldData,
+        diskon: {},
+      },
+      console.log("master : ", this.state.productList)
+    );
   };
 
   setUserEdit = (userEdit) =>

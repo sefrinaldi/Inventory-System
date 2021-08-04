@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 // import Swal from "sweetalert2";
 
 import {
@@ -143,7 +143,7 @@ class Body extends Component {
           oldQty={this.state.oldQty}
           detailProduct={this.state.detailProduct}
           addPembelian={this.addPembelian}
-          goToPage={this.props.goToPage}
+          // goToPage={this.props.goToPage}
           clearUserEdit={this.clearUserEdit}
           changeStatusStok={this.changeStatusStok}
           tambahStok={this.tambahStok}
@@ -161,7 +161,7 @@ class Body extends Component {
           selectedUser={userEdit}
           resetUserEdit={this.clearEdit}
           saveUser={this.updateUsers}
-          goToPage={this.props.goToPage}
+          // goToPage={this.props.goToPage}
         />
       </Route>
 
@@ -170,7 +170,7 @@ class Body extends Component {
           selectedUser={userEdit}
           resetUserEdit={this.clearEdit}
           saveUser={this.updateUsers}
-          goToPage={this.props.goToPage}
+          // goToPage={this.props.goToPage}
         />
       </Route>
 
@@ -232,7 +232,7 @@ class Body extends Component {
         {
           productList: oldProduct,
         },
-        () => this.props.goToPage("productList")
+        // <Link to="/productList" />
       );
     }
     const oldProduct = this.state.productList;
@@ -245,7 +245,7 @@ class Body extends Component {
       {
         productList: oldProduct,
       },
-      () => this.props.goToPage("productList")
+      <Link to="/productList" />
     );
   };
 
@@ -289,7 +289,7 @@ class Body extends Component {
   };
 
   setUserEdit = (userEdit) =>
-    this.setState({ userEdit }, () => this.props.goToPage("form"));
+    this.setState({ userEdit }, <Link to="/form" />);
 
   addProduct = (inputProduct) => {
     this.setState({

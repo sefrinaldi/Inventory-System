@@ -12,7 +12,8 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
+import { connect } from "react-redux";
 
 class Login extends Component {
 	constructor(props) {
@@ -35,15 +36,19 @@ class Login extends Component {
 		const { email, password } = this.state;
 		console.log(`email : `, email);
 		console.log(`password : `, password);
-		if (email === "tokopedei" && password === "banteng") {
-			this.props.changeStat(true, "productList");
-			return Swal.fire("Yeahh...", "Login is success!", "success");
-		} else {
-			return Swal.fire("Opss...", "Login is gagal!", "error");
-		}
+		// if (email === "tokopedei" && password === "banteng") {
+		// 	this.props.changeStat(true, "productList");
+		// 	return Swal.fire("Yeahh...", "Login is success!", "success");
+		// } else {
+		// 	return Swal.fire("Opss...", "Login is gagal!", "error");
+		// }
+
+		const userList = this.props.userData
+		console.log(userList);
 	};
 	render() {
 		const { email, password } = this.state;
+		console.log("list user in redux", this.props.userData);
 		return (
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
@@ -116,4 +121,12 @@ class Login extends Component {
 	}
 }
 
-export default Login;
+const mapStateToProps = state => ({
+	userData : state.Auth.user
+})
+
+const mapDispatchToProps = dispatch => ({
+	//
+})
+
+export default connect(mapStateToProps, mapDispatchToProps) (Login);

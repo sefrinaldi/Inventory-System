@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Menu } from "../../component";
 import logo from "../../image/avatar11066402_1.png";
 import "./navbar.css";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import { Link } from 'react-router-dom'
 
 
@@ -17,7 +17,7 @@ class Navbar extends Component {
     return "";
   };
   checkLogin = () => {
-    const { loginStatus, goToPage } = this.props;
+    // const { loginStatus, goToPage } = this.props;
     return (
       <Link to="/productList">
         <Menu
@@ -38,7 +38,7 @@ class Navbar extends Component {
     );
   };
   checkLogout = () => {
-    const { loginStatus, changeStatus, goToPage } = this.props;
+    const { loginStatus, changeStatus } = this.props;
     if (loginStatus)
       return (
         <Link to="/labaRugi">
@@ -64,7 +64,7 @@ class Navbar extends Component {
     this.props.goToPage("Home");
   };
   render() {
-    const { goToPage } = this.props;
+    // const { goToPage } = this.props;
     return (
       <>
         <div className="topnav">

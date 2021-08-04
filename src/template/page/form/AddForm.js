@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./form.css";
 import Swal from "sweetalert2";
+import { Redirect } from "react-router-dom";
 
 class AddForm extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class AddForm extends Component {
         ? props.selectedUser.thumbnailUrl
         : "",
       diskon: props.selectedUser.diskon ? props.selectedUser.diskon : 0,
+      redirect: false
     };
   }
 
@@ -59,8 +61,13 @@ class AddForm extends Component {
       thumbnailUrl,
       diskon,
     });
+    
+    this.setState({
+      redirect : true
+    })
 
     return Swal.fire("Naaaahhh ... ", "gitu doong bener", "success");
+
   };
   setValue = (e) => this.setState({ [e.target.name]: e.target.value });
 
@@ -69,13 +76,19 @@ class AddForm extends Component {
   }
 
   cancel = () => {
-    this.props.goToPage("productList");
+    // this.props.goToPage("productList");
+    this.setState({
+      redirect: true
+    })
   };
 
   render() {
     const { id, nameProduct, hargaBeli, hargaJual, qty, thumbnailUrl, diskon } =
       this.state;
     console.log(this.state);
+
+    if (this.state.redirect)
+      return <Redirect to="/productList" />
 
     return (
       <table className="MyTable">
